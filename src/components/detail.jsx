@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Card, CardHeader, CardTitle, CardText, List, ListItem, Avatar, Divider} from 'material-ui'
+import { Link } from 'react-router'
+import { Card, CardHeader, CardTitle, CardText, List, ListItem, Avatar, Divider } from 'material-ui'
+import RichEditor from './richeditor/index.jsx'
 
 class Detail extends Component {
   constructor(props) {
@@ -37,11 +39,11 @@ class Detail extends Component {
   render() {
     return(
       <div>
-        <Card>
+        <Card className="card">
           <CardHeader
             title={ this.state.content.loginname }
             subtitle={ '发布于' + this.state.content.post_time }
-            avatar={ this.state.content.avatar_url }
+            avatar={ <Link to={'/user/' + this.state.content.loginname }><Avatar src={ this.state.content.avatar_url } /></Link> }
           />
           <CardTitle title={ this.state.content.title } />
           <CardText dangerouslySetInnerHTML={{ __html: this.state.content.archive }}></CardText>
@@ -52,7 +54,7 @@ class Detail extends Component {
             this.state.content.comments.map((val, index) =>
               <List key={ index }>
                 <ListItem
-                  leftAvatar={ <Avatar title={ val.author.loginname } src={ val.author.avatar_url } /> }
+                  leftAvatar={ <Link to={'/user/' + val.author.loginname }><Avatar title={ val.author.loginname } src={ val.author.avatar_url } /></Link> }
                   primaryText={ <div dangerouslySetInnerHTML={{__html: val.content }} /> }
                 />
                 <Divider inset={ true } />
@@ -60,7 +62,9 @@ class Detail extends Component {
             )
           }
         </Card>
-
+        <Card className="card">
+          <RichEditor />
+        </Card>
       </div>
     )
   }
